@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>Angular 1 Demo</title>
+		<script src="node_modules/angular/angular.js"></script>
+	</head>
+
+	<body>
+
+		<div ng-app="myApp">
+			<hello-world></hello-world>
+		</div>
+
+		<script>
+
+			angular.module('myApp', [])
+				.component('helloWorld', {
+					template: '<h1>{{$ctrl.message}}</h1>',
+					controller: function() {
+						this.message = "Hello World!";
+					}
+				});
+
+		</script>
+
+	</body>
+
+</html>

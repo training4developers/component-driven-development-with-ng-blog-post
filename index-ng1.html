@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>Angular 1 Demo</title>
+		<script src="node_modules/angular/angular.js"></script>
+	</head>
+
+	<body>
+
+		<div ng-app="myApp" ng-controller="myCtrl as $ctrl">
+			<!-- colors are passed in as items, and addColor as addItem -->
+			<!-- think of colors and addColor as arguments to a function -->
+			<!-- think of items and addItem as parameters of a function -->
+			<!-- inputs: data is passed in via attributes -->
+			<list-box items="$ctrl.colors" add-item="$ctrl.addColor(item)">
+				<header>
+					<h2>List of Colors</h2>
+				</header>
+				<footer>
+					<small>Source: Sample Color Institute</small>
+				</footer>
+			</list-box>
+		</div>
+
+		<script>
+
+			angular.module('myApp', [])
+				.controller("myCtrl", function() {
+
+					this.colors = ['red','blue','green','yellow','orange'];
+
+					// outputs: data is received from child via function (event handler or action)
+					this.addColor = function(newColor) {
+						// mutating colors in the parent is allowed, but not the child (list-box)
+						this.colors.push(newColor);
+					};
+
+				})
+				.component('listBox', {
+					transclude: {
+						'header': 'header',
+						'footer': 'footer'
+					},
+					template: `<ng-transclude ng-transclude-slot='header'></ng-transclude>
+						<ul>
+							<li ng-repeat='item in $ctrl.items'>{{item}}</li>
+						</ul>
+						<form>
+							<label>New Item: <input ng-model="$ctrl.newItem" type="text"></label>
+							<button ng-click="$ctrl.addItem({ item: $ctrl.newItem}); $ctrl.newItem=''">Add</button>
+						</form>
+						<ng-transclude ng-transclude-slot='footer'></ng-transclude>`,
+					bindings: {
+						items: '<', // one-way items array, should not be mutated inside list-box
+						addItem: '&' // function bind to send new item to parent to be added to list
+					}
+				});
+
+		</script>
+
+	</body>
+
+</html>

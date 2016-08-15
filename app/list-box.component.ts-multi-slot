@@ -1,0 +1,15 @@
+import { Component } from '@angular/core';
+
+@Component({
+	selector: 'list-box',
+	template: `<ng-content select="header"></ng-content>
+		<ul>
+			<li *ngFor='let item of items'>{{item}}</li>
+		</ul>
+		<ng-content select="footer"></ng-content>`
+})
+export class ListBox {
+
+	items = ['red','blue','green','yellow','orange'];
+
+}

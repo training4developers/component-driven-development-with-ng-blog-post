@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>Angular 1 Demo</title>
+		<script src="node_modules/angular/angular.js"></script>
+	</head>
+
+	<body>
+
+		<div ng-app="myApp">
+			<list-box>
+				<header>
+					<h2>List of Colors</h2>
+				</header>
+			</list-box>
+		</div>
+
+		<script>
+
+			angular.module('myApp', [])
+				.component('listBox', {
+					transclude: true,
+					template: `<ng-transclude></ng-transclude>
+					<ul><li ng-repeat='item in $ctrl.items'>{{item}}</li></ul>`,
+					controller: function() {
+						this.items = ['red','blue','green','yellow','orange'];
+					}
+				});
+
+		</script>
+
+	</body>
+
+</html>
